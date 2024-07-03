@@ -1,28 +1,28 @@
-"use client";
+'use client';
 
-import { useFormStatus } from "react-dom";
+import { useFormStatus } from 'react-dom';
 
 type SubmitButtonProps = {
-  className: string;
-  content: string;
+    className: string;
+    content: string;
 };
 
 export default function SubmitButton(props: SubmitButtonProps) {
-  const { pending } = useFormStatus();
+    const { pending } = useFormStatus();
 
-  const handleClick = (event: any) => {
-    if (pending) {
-      event.preventDefault();
-    }
-  };
+    const handleClick = (event: any) => {
+        if (pending) {
+            event.preventDefault();
+        }
+    };
 
-  return (
-    <button
-      aria-disabled={pending}
-      className={props.className}
-      onClick={handleClick}
-    >
-      {props.content}
-    </button>
-  );
+    return (
+        <button
+            aria-disabled={pending}
+            className={props.className}
+            onClick={handleClick}
+        >
+            {props.content}
+        </button>
+    );
 }
