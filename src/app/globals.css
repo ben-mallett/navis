@@ -4,30 +4,63 @@
 
 :root {
   --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
+  --background-start-rgb: 173, 216, 230; /* Light Blue */
+  --background-end-rgb: 135, 206, 250; /* Sky Blue */
+  --ocean-blue: #87ceeb; /* Sky Blue */
+  --coral-red: #ff6f61;
+  --sea-green: #2e8b57;
+  --sand-beige: #f5deb3;
+  --deep-blue: #00bfff; /* Deep Sky Blue */
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
     --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
+    --background-start-rgb: 0, 31, 84; /* Deep Blue */
+    --background-end-rgb: 0, 31, 84; /* Deep Blue */
   }
 }
 
 body {
   color: rgb(var(--foreground-rgb));
   background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+    to bottom,
+    rgb(var(--background-start-rgb)),
+    rgb(var(--background-end-rgb))
+  );
+}
+
+@layer base {
+  h1 {
+    @apply scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl;
+  }
+  h2 {
+    @apply mt-10 scroll-m-20 pb-2 text-3xl font-semibold tracking-tight transition-colors first:mt-0;
+  }
+  h3 {
+    @apply mt-10 scroll-m-20 pb-2 text-3xl font-semibold tracking-tight transition-colors first:mt-0;
+  }
+  h4 {
+    @apply scroll-m-20 text-xl font-semibold tracking-tight;
+  }
 }
 
 @layer utilities {
   .text-balance {
     text-wrap: balance;
+  }
+
+  .font-aquatic {
+    font-family: "Pacifico", cursive;
+  }
+
+  .shadow-ocean-shadow {
+    box-shadow: 0 4px 6px rgba(0, 191, 255, 0.3);
+  }
+
+  .bg-ocean-gradient {
+    background: linear-gradient(to bottom, var(--deep-blue), var(--ocean-blue));
+    background-size: 200% 200%;
+    animation: gradient-wave 6s;
   }
 }
