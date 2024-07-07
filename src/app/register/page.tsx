@@ -7,28 +7,28 @@ import {
     CardContent,
     CardFooter,
 } from '@/components/ui/card';
-import LoginForm from '@/components/LoginForm';
+import RegisterForm from '@/components/RegisterForm';
 
-export default async function Login() {
+export default async function Register() {
     return (
         <div className="flex justify-center items-center min-h-screen">
-            <Card className="mx-10 w-full md:w-[600px] h-1/2 flex flex-col justify-between items-center shadow-xl">
+            <Card className="m-10 w-full md:w-[600px] h-1/2 flex flex-col justify-between items-center shadow-xl">
                 <CardHeader>
-                    <h1 className="pt-4 pb-4 px-4 text-bold bg-gradient-animated-text text-transparent">
-                        Login
+                    <h1 className="pt-10 pb-4 px-4 text-bold bg-gradient-animated-text text-transparent">
+                        Create Account
                     </h1>
                 </CardHeader>
                 <CardContent>
-                    <LoginForm />
+                    <RegisterForm />
                 </CardContent>
                 <CardFooter>
                     <span className="text-sm mb-4">
-                        Don&#39;t have an account yet?{' '}
+                        Already have an account?{' '}
                         <Link
-                            href="/register"
+                            href="/login"
                             className="text-blue-600 hover:cursor-pointer "
                         >
-                            Register Here
+                            Login Here
                         </Link>
                     </span>
                 </CardFooter>

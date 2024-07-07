@@ -2,25 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-    --foreground-rgb: 0, 0, 0;
-    --background-start-rgb: 173, 216, 230; /* Light Blue */
-    --background-end-rgb: 135, 206, 250; /* Sky Blue */
-    --ocean-blue: #87ceeb; /* Sky Blue */
-    --coral-red: #ff6f61;
-    --sea-green: #2e8b57;
-    --sand-beige: #f5deb3;
-    --deep-blue: #00bfff; /* Deep Sky Blue */
-}
-
-@media (prefers-color-scheme: dark) {
-    :root {
-        --foreground-rgb: 255, 255, 255;
-        --background-start-rgb: 0, 31, 84; /* Deep Blue */
-        --background-end-rgb: 0, 31, 84; /* Deep Blue */
-    }
-}
-
 body {
     color: rgb(var(--foreground-rgb));
     background: linear-gradient(
@@ -31,40 +12,116 @@ body {
 }
 
 @layer base {
+    :root {
+        --background: 213.1 100% 95%;
+        --foreground: 213.1 5% 10%;
+        --card: 213.1 50% 90%;
+        --card-foreground: 213.1 5% 15%;
+        --popover: 213.1 100% 95%;
+        --popover-foreground: 213.1 100% 10%;
+        --primary: 213.1 93.9% 67.8%;
+        --primary-foreground: 0 0% 0%;
+        --secondary: 213.1 30% 70%;
+        --secondary-foreground: 0 0% 0%;
+        --muted: 175.1 30% 85%;
+        --muted-foreground: 213.1 5% 35%;
+        --accent: 175.1 30% 80%;
+        --accent-foreground: 213.1 5% 15%;
+        --destructive: 0, 100%, 70%;
+        --destructive-foreground: 213.1 5% 90%;
+        --border: 213.1 30% 50%;
+        --input: 213.1 30% 26%;
+        --ring: 213.1 93.9% 67.8%;
+        --radius: 0.5rem;
+        --ocean-blue: #87ceeb;
+        --coral-purple: #5100b5;
+        --sea-green: #2e8b57;
+        --sand-beige: #1de5ec;
+        --deep-blue: #4852de;
+    }
+    .dark {
+        --background: 213.1 50% 10%;
+        --foreground: 213.1 5% 90%;
+        --card: 213.1 50% 10%;
+        --card-foreground: 213.1 5% 90%;
+        --popover: 213.1 50% 5%;
+        --popover-foreground: 213.1 5% 90%;
+        --primary: 213.1 93.9% 67.8%;
+        --primary-foreground: 0 0% 0%;
+        --secondary: 213.1 30% 20%;
+        --secondary-foreground: 0 0% 100%;
+        --muted: 175.1 30% 25%;
+        --muted-foreground: 213.1 5% 60%;
+        --accent: 175.1 30% 25%;
+        --accent-foreground: 213.1 5% 90%;
+        --destructive: 0 100% 70%;
+        --destructive-foreground: 213.1 5% 90%;
+        --border: 213.1 30% 26%;
+        --input: 213.1 30% 26%;
+        --ring: 213.1 93.9% 67.8%;
+        --radius: 0.5rem;
+    }
+
     h1 {
-        @apply scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl;
+        @apply scroll-m-20 text-4xl font-bold tracking-tight lg:text-5xl;
     }
     h2 {
-        @apply mt-10 scroll-m-20 pb-2 text-3xl font-semibold tracking-tight transition-colors first:mt-0;
+        @apply scroll-m-20 text-3xl font-light tracking-tight transition-colors first:mt-0;
     }
     h3 {
-        @apply mt-10 scroll-m-20 pb-2 text-3xl font-semibold tracking-tight transition-colors first:mt-0;
+        @apply mt-10 scroll-m-20 pb-2 text-3xl font-light tracking-tight transition-colors first:mt-0;
     }
     h4 {
-        @apply scroll-m-20 text-xl font-semibold tracking-tight;
+        @apply scroll-m-20 text-xl font-light tracking-tight;
+    }
+
+    form {
+        @apply p-4;
+    }
+    form > label {
+        @apply text-xl text-slate-600 pt-4 px-2;
+    }
+    form > input {
+        @apply text-lg text-slate-600 border border-2 border-gray-200 rounded-lg p-2 w-full focus:border-teal-300 focus:outline-none;
+    }
+    form > button {
+        @apply text-xl text-teal-300 bg-gradient-animated focus:border-teal-300 focus:outline-none text-center p-4 rounded-lg;
     }
 }
 
 @layer utilities {
-    .text-balance {
-        text-wrap: balance;
+    @keyframes gradient-x {
+        0% {
+            background-position: 0% 50%;
+        }
+        50% {
+            background-position: 100% 50%;
+        }
+        100% {
+            background-position: 0% 50%;
+        }
     }
 
-    .font-aquatic {
-        font-family: 'Pacifico', cursive;
-    }
-
-    .shadow-ocean-shadow {
-        box-shadow: 0 4px 6px rgba(0, 191, 255, 0.3);
-    }
-
-    .bg-ocean-gradient {
+    .bg-gradient-animated {
         background: linear-gradient(
-            to bottom,
+            225deg,
             var(--deep-blue),
+            var(--sea-green),
             var(--ocean-blue)
         );
-        background-size: 200% 200%;
-        animation: gradient-wave 6s;
+        background-size: 400% 400%;
+        animation: gradient-x 20s ease infinite;
+    }
+
+    .bg-gradient-animated-text {
+        background: linear-gradient(
+            45deg,
+            var(--deep-blue),
+            var(--sea-green),
+            var(--ocean-blue)
+        );
+        background-size: 400% 400%;
+        background-clip: text;
+        animation: gradient-x 10s ease infinite;
     }
 }
