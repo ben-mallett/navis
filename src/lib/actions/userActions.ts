@@ -35,11 +35,10 @@ export async function createUser(
             },
         });
     } catch (error: any) {
-        console.log(error);
         return {
             data: undefined,
             error: true,
-            message: error?.message,
+            message: 'Failed to create user',
         };
     }
 

@@ -86,7 +86,7 @@ export default function FacetedFilterTable(props: FacetedFilterTableProps) {
                                             <div className="flex items-start flex-col justify-center w-full gap-2 mb-2">
                                                 <div
                                                     {...{
-                                                        className: `flex items-center justify-between gap-2 w-1/2 ${
+                                                        className: `flex items-center justify-between gap-2 w-2/3 ${
                                                             header.column.getCanSort()
                                                                 ? 'cursor-pointer select-none'
                                                                 : ''

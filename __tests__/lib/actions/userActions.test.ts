@@ -57,7 +57,7 @@ describe('createUser', () => {
         const { error, message, data } = await createUser(newUser);
         expect(error);
         expect(data).toBeUndefined();
-        expect(message).toBe('Sample error from prisma');
+        expect(message).toBe('Failed to create user');
         expect(createSessionMock).not.toHaveBeenCalled();
 
         createSessionMock.mockRestore();

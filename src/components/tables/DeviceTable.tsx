@@ -25,6 +25,8 @@ import { verifySession } from '@/lib/session';
 
 export type DeviceT = {
     id: number;
+    name: string;
+    balenaId: string;
     ipAddress: string;
     createdAt: Date;
 };
@@ -64,12 +66,22 @@ export default function DeviceTable(props: DeviceTableProps) {
             {
                 accessorKey: 'id',
                 id: 'id',
-                header: 'Device ID',
+                header: 'ID',
+            },
+            {
+                accessorKey: 'name',
+                id: 'name',
+                header: 'Name',
+            },
+            {
+                accessorKey: 'balenaId',
+                id: 'balenaId',
+                header: 'Balena ID',
             },
             {
                 accessorKey: 'ipAddress',
                 id: 'ipAddress',
-                header: 'IP Address',
+                header: 'IP',
             },
             {
                 id: 'actions',
@@ -165,12 +177,10 @@ export default function DeviceTable(props: DeviceTableProps) {
                                     </TooltipTrigger>
                                     <TooltipContent>
                                         <div className="bg-teal-300 text-slate-600 p-2 rounded-md mb-1 w-[250px] text-justify">
-                                            Syncing the device config requires
-                                            the device to be available on your
-                                            local network. This option will
-                                            connect locally to the device to
-                                            provide it with a configuration
-                                            file.
+                                            Syncing the device config will
+                                            update the device via balena. Ensure
+                                            the device is plugged in and
+                                            connected to internet.
                                         </div>
                                     </TooltipContent>
                                 </Tooltip>
