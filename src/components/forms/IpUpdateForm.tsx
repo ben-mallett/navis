@@ -13,9 +13,10 @@ import {
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { z } from 'zod';
-import { loginUser } from '@/lib/actions/userActions';
 import { useToast } from '../ui/use-toast';
 import { updateDeviceIp } from '@/lib/actions/deviceActions';
+import { useRouter } from 'next/navigation';
+import { verifySession } from '@/lib/session';
 
 export const IpUpdateFormSchema = z.object({
     ipAddress: z.string().ip({ message: 'Invalid IP address' }),
@@ -25,11 +26,13 @@ export type IpUpdateFormData = z.infer<typeof IpUpdateFormSchema>;
 
 export type IpUpdateFormProps = {
     deviceId: number;
+    setOpen?: Function;
 };
 
 export default function IpUpdateForm(props: IpUpdateFormProps) {
-    const { deviceId } = props;
+    const { deviceId, setOpen } = props;
     const { toast } = useToast();
+    const router = useRouter();
     const form = useForm<IpUpdateFormData>({
         resolver: zodResolver(IpUpdateFormSchema),
         defaultValues: {
@@ -44,7 +47,8 @@ export default function IpUpdateForm(props: IpUpdateFormProps) {
         values: IpUpdateFormData
     ) {
         const { ipAddress } = values;
-        const result = await updateDeviceIp(deviceId, ipAddress);
+        const { id: userId, role } = await verifySession();
+        const result = await updateDeviceIp(deviceId, ipAddress, userId);
         if (result?.error) {
             toast({
                 title: 'Uh oh...',
@@ -52,6 +56,10 @@ export default function IpUpdateForm(props: IpUpdateFormProps) {
                 variant: 'destructive',
             });
         }
+        if (setOpen !== undefined) {
+            setOpen(false);
+        }
+        router.refresh();
     }
 
     return (

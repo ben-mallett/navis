@@ -5,6 +5,7 @@ import { Chart, ArcElement, Tooltip, Legend } from 'chart.js';
 import { getAllUsers } from '@/lib/actions/userActions';
 import { useEffect, useState } from 'react';
 import { UserT } from '../tables/UserTable';
+import { verifySession } from '@/lib/session';
 
 Chart.register(ArcElement, Tooltip, Legend);
 Chart.defaults.borderColor = 'rgb(20 184 166)';
@@ -15,10 +16,11 @@ export default function RoleDistributionChart() {
 
     useEffect(() => {
         async function getUsers() {
-            const users: UserT[] = await getAllUsers();
+            const { id, role } = await verifySession();
+            const { error, message, data: users } = await getAllUsers(id);
 
             const roleCounts: { [key: string]: number } = {};
-            users.forEach((user: { role: string }) => {
+            users?.forEach((user: { role: string }) => {
                 if (!roleCounts[user.role]) {
                     roleCounts[user.role] = 0;
                 }
@@ -52,7 +54,7 @@ export default function RoleDistributionChart() {
         }
 
         getUsers();
-    }, [getAllUsers]);
+    }, []);
 
     if (!chartData) return <div>Loading...</div>;
 

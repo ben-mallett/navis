@@ -7,14 +7,23 @@ import { hashPassword, checkPassword } from '../auth';
 import prisma from '../prisma';
 import { createSession, revokeSession } from '../session';
 import { LoginFormData } from '@/components/forms/LoginForm';
+import { DiagnosticReturn, verifyAdmin } from '../utils';
 
-export async function createUser(formData: RegisterFormData) {
+/**
+ * Creates a user from the given registration information and adds a session
+ *
+ * @param {RegisterFormData} formData data containing user name, email, and password
+ * @returns {Promise<DiagnosticReturn>} data and error information
+ */
+export async function createUser(
+    formData: RegisterFormData
+): Promise<DiagnosticReturn> {
     let user = undefined;
 
     try {
         const { name, email, password } = formData;
 
-        const hashed = await hashPassword(password, 10);
+        const hashed = hashPassword(password, 10);
 
         user = await prisma.user.create({
             data: {
@@ -44,11 +53,20 @@ export async function createUser(formData: RegisterFormData) {
             name: user.name,
             email: user.email,
             role: user.role,
+            createdAt: user.createdAt,
         },
     };
 }
 
-export async function loginUser(formData: LoginFormData) {
+/**
+ * Validates login information and adds session on success
+ *
+ * @param {LoginFormData} formData login form data including email and password
+ * @returns {Promise<DiagnosticReturn>} data and error information
+ */
+export async function loginUser(
+    formData: LoginFormData
+): Promise<DiagnosticReturn> {
     let user = undefined;
 
     try {
@@ -86,26 +104,60 @@ export async function loginUser(formData: LoginFormData) {
     };
 }
 
+/**
+ * Logs out a user by revoking their session
+ */
 export async function logoutUser() {
     await revokeSession();
 }
 
-export async function getAllUsers(): Promise<UserT[]> {
-    const users = await prisma.user.findMany();
-    const filteredUsers: UserT[] = users.map((user) => {
+/**
+ * Gets a list of all users
+ *
+ * @param {number} requesterId id of person requesting information
+ * @returns {Promise<DiagnosticReturn>} user information
+ */
+export async function getAllUsers(
+    requesterId: number
+): Promise<DiagnosticReturn> {
+    try {
+        await verifyAdmin(requesterId);
+        const users = await prisma.user.findMany();
+        const filteredUsers: UserT[] = users.map((user) => {
+            return {
+                id: user.id,
+                createdAt: user.createdAt,
+                name: user.name,
+                email: user.email,
+                role: user.role,
+            };
+        });
         return {
-            id: user.id,
-            createdAt: user.createdAt,
-            name: user.name,
-            email: user.email,
-            role: user.role,
+            error: false,
+            message: 'Successfully got all users',
+            data: filteredUsers,
         };
-    });
-    return filteredUsers;
+    } catch (error: any) {
+        return {
+            error: true,
+            message: 'Failed to get all users',
+            data: undefined,
+        };
+    }
 }
 
-export async function handlePermissionChange(userId: number) {
+/**
+ * Toggles the role of the given user, either ADMIN or USER
+ * @param {number} userId id of user to update
+ * @param {number} requesterId id of user requesting action
+ * @returns {Promise<DiagnosticReturn>} diagnostic info containing update user id
+ */
+export async function handlePermissionChange(
+    userId: number,
+    requesterId: number
+): Promise<DiagnosticReturn> {
     try {
+        await verifyAdmin(requesterId);
         const user = await prisma.user.findUniqueOrThrow({
             where: {
                 id: userId,
@@ -128,12 +180,23 @@ export async function handlePermissionChange(userId: number) {
         return {
             error: true,
             message: 'Failed to update user permission',
+            data: undefined,
         };
     }
 }
 
-export async function handleUserDelete(userId: number) {
+/**
+ * Deletes the user associated with the given id
+ * @param {number} userId id of user to delete
+ * @param {number} requesterId id of user requesting action
+ * @returns {Promise<DiagnosticReturn>} diagnostic information containing deleted user id
+ */
+export async function handleUserDelete(
+    userId: number,
+    requesterId: number
+): Promise<DiagnosticReturn> {
     try {
+        await verifyAdmin(requesterId);
         const user = await prisma.user.delete({
             where: {
                 id: userId,
@@ -148,12 +211,26 @@ export async function handleUserDelete(userId: number) {
         return {
             error: true,
             message: 'Failed to delete user',
+            data: undefined,
         };
     }
 }
 
-export async function getUserById(userId: number) {
+/**
+ * Returns a single user from its id
+ * @param {number} userId id of user to get
+ * @param {numer} requesterId id of user requesting action
+ * @returns {Promise<DiagnosticReturn>} user information
+ */
+export async function getUserById(
+    userId: number,
+    requesterId: number
+): Promise<DiagnosticReturn> {
     try {
+        if (userId !== requesterId) {
+            await verifyAdmin(requesterId);
+        }
+
         const user = await prisma.user.findUniqueOrThrow({
             where: {
                 id: userId,
@@ -161,18 +238,20 @@ export async function getUserById(userId: number) {
         });
         return {
             error: false,
-            message: 'Got User',
+            message: 'Retrieved User',
             data: {
                 id: user?.id,
                 email: user?.email,
                 name: user?.name,
                 role: user?.role,
+                createdAt: user?.createdAt,
             },
         };
     } catch (error: any) {
         return {
             error: true,
-            message: error,
+            message: `Failed to get user ${userId}`,
+            data: undefined,
         };
     }
 }

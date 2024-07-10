@@ -32,10 +32,12 @@ enum Role {
 model Device {
   id              Int       @id @default(autoincrement())
   createdAt       DateTime  @default(now()) @db.Timestamptz(6)
+  name            String
+  balenaId        String
   ipAddress       String
   userId          Int
   user            User      @relation(fields: [userId], references: [id])
-  sensorReadings  SensorReading[]  // Define the relationship
+  sensorReadings  SensorReading[] 
 }
 
 model SensorReading {
@@ -43,7 +45,7 @@ model SensorReading {
   takenOn   DateTime  @default(now())
   dataType  DataType
   value     Float
-  deviceId  Int       // Foreign key to associate with Device
+  deviceId  Int       
   device    Device    @relation(fields: [deviceId], references: [id])
 }
 

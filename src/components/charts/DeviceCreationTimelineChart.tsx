@@ -12,9 +12,9 @@ import {
     Legend,
 } from 'chart.js';
 import 'chartjs-adapter-date-fns';
-import { getAllUsers } from '@/lib/actions/userActions';
 import { useEffect, useState } from 'react';
-import { UserT } from '../tables/UserTable';
+import { getAllDevices } from '@/lib/actions/deviceActions';
+import { DeviceT } from '../tables/DeviceTable';
 import { verifySession } from '@/lib/session';
 
 Chart.register(
@@ -29,17 +29,17 @@ Chart.register(
 Chart.defaults.borderColor = 'rgb(20 184 166)';
 Chart.defaults.color = 'rgb(94 234 212)';
 
-export default function UserRegistrationChart() {
+export default function DeviceCreationTimelineChart() {
     const [chartData, setChartData] = useState<any>(null);
 
     useEffect(() => {
-        async function getUsers() {
+        async function getDevices() {
             const { id, role } = await verifySession();
-            const { error, message, data: users } = await getAllUsers(id);
+            const { error, message, data: devices } = await getAllDevices(id);
 
             const dataPoints: { [key: string]: number } = {};
-            users?.forEach((user: UserT) => {
-                const date = new Date(user.createdAt).toLocaleDateString();
+            devices?.forEach((device: DeviceT) => {
+                const date = new Date(device.createdAt).toLocaleDateString();
                 if (!dataPoints[date]) {
                     dataPoints[date] = 0;
                 }
@@ -55,7 +55,7 @@ export default function UserRegistrationChart() {
                 labels,
                 datasets: [
                     {
-                        label: 'Daily Registrations',
+                        label: 'Device Creations',
                         data: dataValues,
                         fill: false,
                         borderColor: 'rgb(234 88 12)',
@@ -65,7 +65,7 @@ export default function UserRegistrationChart() {
             });
         }
 
-        getUsers();
+        getDevices();
     }, []);
 
     if (!chartData) return <div>Loading...</div>;

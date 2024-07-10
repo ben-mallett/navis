@@ -9,7 +9,7 @@ function violatesLoginOnlyRoutes(desiredPath: string, session: any) {
         '/dashboard/streaming',
         '/dashboard/account',
         '/dashboard/admin/users',
-        '/dashboard/admin/diagnostics',
+        '/dashboard/admin/devices',
     ];
 
     return loggedInOnlyRoutes.includes(desiredPath) && !session?.id;
@@ -24,7 +24,7 @@ function violatesLoggedOutOnlyRoutes(desiredPath: string, session: any) {
 function violatesAdminOnlyRoutes(desiredPath: string, session: any) {
     const adminOnlyRoutes = [
         '/dashboard/admin/users',
-        '/dashboard/admin/diagnostics',
+        '/dashboard/admin/devices',
     ];
 
     return (

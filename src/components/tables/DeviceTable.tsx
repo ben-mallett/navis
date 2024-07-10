@@ -4,7 +4,7 @@ import { useMemo } from 'react';
 import { ColumnDef } from '@tanstack/react-table';
 import FacetedFilterTable from './FilterableTable';
 import { Button } from '../ui/button';
-import { Bolt, MonitorX } from 'lucide-react';
+import { Bolt, MonitorX, SendToBack, Info } from 'lucide-react';
 import {
     TooltipContent,
     TooltipProvider,
@@ -21,12 +21,12 @@ import {
     DialogTitle,
 } from '../ui/dialog';
 import { deleteDevice } from '@/lib/actions/deviceActions';
+import { verifySession } from '@/lib/session';
 
 export type DeviceT = {
     id: number;
     ipAddress: string;
     createdAt: Date;
-    numSensorReadings: number;
 };
 
 export type DeviceTableProps = {
@@ -39,12 +39,17 @@ export default function DeviceTable(props: DeviceTableProps) {
     const router = useRouter();
 
     async function handleDelete(id: number) {
-        const { error, message, data } = await deleteDevice(id);
+        const { id: userId, role } = await verifySession();
+        const { error, message, data } = await deleteDevice(id, userId);
         router.refresh();
         toast({
             title: `Operation ${error ? 'Failed' : 'Succeeded'}`,
             description: message,
         });
+    }
+
+    async function syncIp(ipAddress: string) {
+        console.log(`Attempting to sync device at IP ${ipAddress}`);
     }
 
     const deviceDataColumns = useMemo<ColumnDef<DeviceT, any>[]>(
@@ -65,11 +70,6 @@ export default function DeviceTable(props: DeviceTableProps) {
                 accessorKey: 'ipAddress',
                 id: 'ipAddress',
                 header: 'IP Address',
-            },
-            {
-                accessorKey: 'numSensorReadings',
-                id: 'numSensorReadings',
-                header: '# Observations',
             },
             {
                 id: 'actions',
@@ -115,7 +115,7 @@ export default function DeviceTable(props: DeviceTableProps) {
                                             onClick={() =>
                                                 handleDelete(row.original.id)
                                             }
-                                            className="bg-red-400/60 border border-teal-300"
+                                            className="bg-red-400/60 border border-teal-300 hover:bg-red-300/60"
                                         >
                                             <MonitorX
                                                 color="rgb(94 234 212)"
@@ -130,12 +130,57 @@ export default function DeviceTable(props: DeviceTableProps) {
                                     </TooltipContent>
                                 </Tooltip>
                             </TooltipProvider>
+                            <TooltipProvider>
+                                <Tooltip>
+                                    <TooltipTrigger asChild>
+                                        <Button
+                                            variant="outline"
+                                            onClick={() =>
+                                                syncIp(row.original.ipAddress)
+                                            }
+                                            className="bg-yellow-400/60 border border-teal-300 hover:bg-yellow-300/60"
+                                        >
+                                            <SendToBack
+                                                color="rgb(94 234 212)"
+                                                strokeWidth={1.25}
+                                            />
+                                        </Button>
+                                    </TooltipTrigger>
+                                    <TooltipContent>
+                                        <div className="bg-teal-300 text-slate-600 p-2 rounded-md mb-1">
+                                            Sync Device Config
+                                        </div>
+                                    </TooltipContent>
+                                </Tooltip>
+                            </TooltipProvider>
+                            <TooltipProvider>
+                                <Tooltip>
+                                    <TooltipTrigger asChild>
+                                        <div className="flex justify-center items-center hover:cursor-pointer">
+                                            <Info
+                                                color="rgb(94 234 212)"
+                                                strokeWidth={1.25}
+                                            />
+                                        </div>
+                                    </TooltipTrigger>
+                                    <TooltipContent>
+                                        <div className="bg-teal-300 text-slate-600 p-2 rounded-md mb-1 w-[250px] text-justify">
+                                            Syncing the device config requires
+                                            the device to be available on your
+                                            local network. This option will
+                                            connect locally to the device to
+                                            provide it with a configuration
+                                            file.
+                                        </div>
+                                    </TooltipContent>
+                                </Tooltip>
+                            </TooltipProvider>
                         </div>
                     );
                 },
             },
         ],
-        []
+        [handleDelete]
     );
 
     return <FacetedFilterTable data={devices} columns={deviceDataColumns} />;

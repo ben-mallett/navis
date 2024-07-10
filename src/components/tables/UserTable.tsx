@@ -18,6 +18,7 @@ import {
 } from '@/lib/actions/userActions';
 import { useToast } from '../ui/use-toast';
 import { useRouter } from 'next/navigation';
+import { verifySession } from '@/lib/session';
 
 export type UserT = {
     id: number;
@@ -37,7 +38,11 @@ export default function UserTable(props: UserTableProps) {
     const router = useRouter();
 
     async function handleRoleChange(id: number) {
-        const { error, message, data } = await handlePermissionChange(id);
+        const { id: userId, role } = await verifySession();
+        const { error, message, data } = await handlePermissionChange(
+            id,
+            userId
+        );
         router.refresh();
         toast({
             title: `Operation ${error ? 'Failed' : 'Succeeded'}`,
@@ -46,7 +51,8 @@ export default function UserTable(props: UserTableProps) {
     }
 
     async function handleDelete(id: number) {
-        const { error, message, data } = await handleUserDelete(id);
+        const { id: userId, role } = await verifySession();
+        const { error, message, data } = await handleUserDelete(id, userId);
         router.refresh();
         toast({
             title: `Operation ${error ? 'Failed' : 'Succeeded'}`,
@@ -159,7 +165,7 @@ export default function UserTable(props: UserTableProps) {
                 },
             },
         ],
-        []
+        [handleDelete]
     );
 
     return <FacetedFilterTable data={users} columns={userDataColumns} />;

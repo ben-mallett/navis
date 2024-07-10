@@ -1,3 +1,4 @@
+'use server';
 import { SignJWT, jwtVerify } from 'jose';
 import { Role } from '@prisma/client';
 import { cookies } from 'next/headers';

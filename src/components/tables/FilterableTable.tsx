@@ -261,7 +261,7 @@ export function Filter({ column }: { column: Column<any, unknown> }) {
             filterVariant === 'range'
                 ? []
                 : Array.from(column.getFacetedUniqueValues().keys()).sort(),
-        [column.getFacetedUniqueValues(), filterVariant]
+        [column.getFacetedUniqueValues(), filterVariant, column]
     );
 
     return filterVariant === 'range' ? (

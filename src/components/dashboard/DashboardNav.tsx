@@ -6,7 +6,8 @@ import {
     LineChart,
     UserCog,
     BellDot,
-    CircuitBoard,
+    ServerCog,
+    SquareDot,
 } from 'lucide-react';
 import DashboardNavEntry from './DashboardNavEntry';
 import { verifySession } from '@/lib/session';
@@ -18,16 +19,16 @@ export default async function DashboardNav() {
     return (
         <div className="sticky top-0 flex flex-col items-center justify-start w-[75px] border-r border-teal-300 min-h-screen">
             <DashboardNavEntry
+                path="/"
+                ChildIcon={
+                    <SquareDot color="rgb(94 234 212)" strokeWidth={1.25} />
+                }
+                tooltipMessage="Home"
+            />
+            <DashboardNavEntry
                 path="/dashboard/account"
                 ChildIcon={<User color="rgb(94 234 212)" strokeWidth={1.25} />}
                 tooltipMessage="Account Settings"
-            />
-            <DashboardNavEntry
-                path="/dashboard/factory"
-                ChildIcon={
-                    <CircuitBoard color="rgb(94 234 212)" strokeWidth={1.25} />
-                }
-                tooltipMessage="Create Devices"
             />
             <DashboardNavEntry
                 path="/dashboard"
@@ -55,6 +56,15 @@ export default async function DashboardNav() {
                         <UserCog color="rgb(94 234 212)" strokeWidth={1.25} />
                     }
                     tooltipMessage="Manage Users"
+                />
+            )}
+            {session?.role !== undefined && session?.role === Role.ADMIN && (
+                <DashboardNavEntry
+                    path="/dashboard/admin/devices"
+                    ChildIcon={
+                        <ServerCog color="rgb(94 234 212)" strokeWidth={1.25} />
+                    }
+                    tooltipMessage="Manage Devices"
                 />
             )}
         </div>

@@ -7,7 +7,7 @@ import {
     CardContent,
     CardFooter,
 } from '@/components/ui/card';
-import RegisterForm from '@/components/RegisterForm';
+import RegisterForm from '@/components/forms/RegisterForm';
 
 export default async function Register() {
     return (
