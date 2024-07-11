@@ -1,9 +1,9 @@
 import { expect, test, vi } from 'vitest';
 import { Role } from '@prisma/client';
-import prisma from '../../src/lib/__mocks__/prisma';
+import prisma from '../../src/lib/prisma/__mocks__/prisma';
 import { verifyAdmin } from '../../src/lib/utils';
 
-vi.mock('../../src/lib/prisma');
+vi.mock('../../src/lib/prisma/prisma');
 
 test('verifyAdmin returns with no error when a user is admin', async () => {
     const candidateAdminUser = {

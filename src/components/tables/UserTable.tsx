@@ -165,7 +165,7 @@ export default function UserTable(props: UserTableProps) {
                 },
             },
         ],
-        [handleDelete]
+        []
     );
 
     return <FacetedFilterTable data={users} columns={userDataColumns} />;

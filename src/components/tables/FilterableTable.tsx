@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useMemo } from 'react';
+import { useRef, useState, useEffect, useMemo } from 'react';
 import {
     Column,
     ColumnDef,
@@ -42,11 +42,13 @@ export type FacetedFilterTableProps = {
 };
 
 export default function FacetedFilterTable(props: FacetedFilterTableProps) {
-    const { columns, data } = props;
+    const memoizedColumns = useMemo(() => props.columns, []);
+    const memoizedData = useMemo(() => props.data, []);
+
     const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
     const table = useReactTable({
-        data,
-        columns,
+        data: memoizedData,
+        columns: memoizedColumns,
         state: {
             columnFilters,
         },
@@ -339,8 +341,8 @@ export function Filter({ column }: { column: Column<any, unknown> }) {
     ) : (
         <>
             <datalist id={column.id + 'list'}>
-                {sortedUniqueValues.map((value: any) => (
-                    <option value={value} key={value} />
+                {sortedUniqueValues.map((value: any, i) => (
+                    <option value={value} key={i} />
                 ))}
             </datalist>
             <DebouncedInput

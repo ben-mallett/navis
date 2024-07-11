@@ -4,7 +4,7 @@ WORKDIR /app
 
 COPY package.json package-lock.json  pnpm-lock.yaml ./
 
-RUN npm install -g pnpm
+RUN npm install -g pnpm ts-node typescript
 
 RUN pnpm install
 

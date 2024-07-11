@@ -1,6 +1,6 @@
 import { expect, test, vi, describe } from 'vitest';
 import { Role, Device } from '@prisma/client';
-import prisma from '../../../src/lib/__mocks__/prisma';
+import prisma from '../../../src/lib/prisma/__mocks__/prisma';
 import {
     createDevice,
     deleteDevice,
@@ -9,7 +9,7 @@ import {
     updateDeviceIp,
 } from '../../../src/lib/actions/deviceActions';
 
-vi.mock('../../../src/lib/prisma');
+vi.mock('../../../src/lib/prisma/prisma');
 
 describe('createDevice', () => {
     test('createDevice succeeds when given valid device information and the owning user matches the requesting user', async () => {

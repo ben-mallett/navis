@@ -9,11 +9,11 @@ import {
 } from '../../../src/lib/actions/userActions';
 import * as sessionModule from '../../../src/lib/session';
 import * as authModule from '../../../src/lib/auth';
-import prisma from '../../../src/lib/__mocks__/prisma';
+import prisma from '../../../src/lib/prisma/__mocks__/prisma';
 import { Role, User } from '@prisma/client';
 import { logoutUser } from '../../../src/lib/actions/userActions';
 
-vi.mock('../../../src/lib/prisma');
+vi.mock('../../../src/lib/prisma/prisma');
 
 describe('createUser', () => {
     test('createUser should return the generated user upon success', async () => {

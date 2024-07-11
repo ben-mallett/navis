@@ -36,17 +36,17 @@ model Device {
   balenaId        String
   ipAddress       String
   userId          Int
-  user            User      @relation(fields: [userId], references: [id])
+  user            User      @relation(fields: [userId], references: [id], onUpdate: Cascade, onDelete: Cascade)
   sensorReadings  SensorReading[] 
 }
 
 model SensorReading {
   id        Int       @id @default(autoincrement())
-  takenOn   DateTime  @default(now())
+  takenOn   DateTime  @default(now()) @db.Timestamptz(6)
   dataType  DataType
   value     Float
   deviceId  Int       
-  device    Device    @relation(fields: [deviceId], references: [id])
+  device    Device    @relation(fields: [deviceId], references: [id], onUpdate: Cascade, onDelete: Cascade)
 }
 
 enum DataType {

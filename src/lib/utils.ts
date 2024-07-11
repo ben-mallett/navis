@@ -1,7 +1,7 @@
 import { type ClassValue, clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 import { Role } from '@prisma/client';
-import prisma from './prisma';
+import prisma from './prisma/prisma';
 
 export function cn(...inputs: ClassValue[]) {
     return twMerge(clsx(inputs));

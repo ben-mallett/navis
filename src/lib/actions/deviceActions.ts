@@ -1,6 +1,6 @@
 'use server';
 
-import prisma from '../prisma';
+import prisma from '../prisma/prisma';
 import { DeviceT } from '@/components/tables/DeviceTable';
 import { CreateDeviceFormData } from '@/components/forms/AddDeviceForm';
 import { DiagnosticReturn, verifyAdmin } from '../utils';

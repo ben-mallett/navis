@@ -4,7 +4,7 @@ import { Role } from '@prisma/client';
 import { UserT } from '@/components/tables/UserTable';
 import { RegisterFormData } from '@/components/forms/RegisterForm';
 import { hashPassword, checkPassword } from '../auth';
-import prisma from '../prisma';
+import prisma from '../prisma/prisma';
 import { createSession, revokeSession } from '../session';
 import { LoginFormData } from '@/components/forms/LoginForm';
 import { DiagnosticReturn, verifyAdmin } from '../utils';

@@ -1,6 +1,6 @@
 'use client';
 
-import { useMemo } from 'react';
+import { useMemo, memo } from 'react';
 import { ColumnDef } from '@tanstack/react-table';
 import FacetedFilterTable from './FilterableTable';
 import { Button } from '../ui/button';
@@ -35,8 +35,95 @@ export type DeviceTableProps = {
     devices: DeviceT[];
 };
 
+const MemoFacetedFilterTable = memo(FacetedFilterTable);
+const devices = [
+    {
+        id: 1,
+        name: 'device 1',
+        ipAddress: '192.168.1.1',
+        balenaId: 'uu1341',
+        createdAt: new Date(),
+    },
+    {
+        id: 1,
+        name: 'device 1',
+        ipAddress: '192.168.1.1',
+        balenaId: 'uu1341',
+        createdAt: new Date(),
+    },
+    {
+        id: 1,
+        name: 'device 1',
+        ipAddress: '192.168.1.1',
+        balenaId: 'uu1341',
+        createdAt: new Date(),
+    },
+    {
+        id: 1,
+        name: 'device 1',
+        ipAddress: '192.168.1.1',
+        balenaId: 'uu1341',
+        createdAt: new Date(),
+    },
+    {
+        id: 1,
+        name: 'device 1',
+        ipAddress: '192.168.1.1',
+        balenaId: 'uu1341',
+        createdAt: new Date(),
+    },
+    {
+        id: 1,
+        name: 'device 1',
+        ipAddress: '192.168.1.1',
+        balenaId: 'uu1341',
+        createdAt: new Date(),
+    },
+    {
+        id: 1,
+        name: 'device 1',
+        ipAddress: '192.168.1.1',
+        balenaId: 'uu1341',
+        createdAt: new Date(),
+    },
+    {
+        id: 1,
+        name: 'device 1',
+        ipAddress: '192.168.1.1',
+        balenaId: 'uu1341',
+        createdAt: new Date(),
+    },
+    {
+        id: 1,
+        name: 'device 1',
+        ipAddress: '192.168.1.1',
+        balenaId: 'uu1341',
+        createdAt: new Date(),
+    },
+    {
+        id: 1,
+        name: 'device 1',
+        ipAddress: '192.168.1.1',
+        balenaId: 'uu1341',
+        createdAt: new Date(),
+    },
+    {
+        id: 1,
+        name: 'device 1',
+        ipAddress: '192.168.1.1',
+        balenaId: 'uu1341',
+        createdAt: new Date(),
+    },
+    {
+        id: 1,
+        name: 'device 1',
+        ipAddress: '192.168.1.1',
+        balenaId: 'uu1341',
+        createdAt: new Date(),
+    },
+];
+
 export default function DeviceTable(props: DeviceTableProps) {
-    const { devices } = props;
     const { toast } = useToast();
     const router = useRouter();
 
@@ -57,16 +144,16 @@ export default function DeviceTable(props: DeviceTableProps) {
     const deviceDataColumns = useMemo<ColumnDef<DeviceT, any>[]>(
         () => [
             {
+                accessorKey: 'id',
+                id: 'id',
+                header: 'ID',
+            },
+            {
                 accessorKey: 'createdAt',
                 id: 'createdAt',
                 header: 'Created On',
                 cell: ({ getValue }) =>
                     new Date(getValue<string>()).toLocaleDateString(),
-            },
-            {
-                accessorKey: 'id',
-                id: 'id',
-                header: 'ID',
             },
             {
                 accessorKey: 'name',
@@ -190,8 +277,10 @@ export default function DeviceTable(props: DeviceTableProps) {
                 },
             },
         ],
-        [handleDelete]
+        []
     );
 
-    return <FacetedFilterTable data={devices} columns={deviceDataColumns} />;
+    return (
+        <MemoFacetedFilterTable data={devices} columns={deviceDataColumns} />
+    );
 }

@@ -3,11 +3,15 @@
     "version": "0.1.0",
     "private": true,
     "scripts": {
-        "dev": "npx prisma migrate deploy && npx prisma generate && next dev",
+        "dev": "pnpm prisma migrate reset --force && npx prisma migrate deploy && npx prisma generate && pnpm run seed && next dev",
         "build": "next build",
         "start": "next start",
         "lint": "next lint",
-        "test": "vitest run"
+        "test": "vitest run",
+        "seed": "ts-node --project seed.tsconfig.json src/lib/prisma/seed.ts"
+    },
+    "prisma": {
+        "seed": "ts-node --compiler-options {\"module\":\"CommonJS\"} src/lib/prisma/seed.ts"
     },
     "dependencies": {
         "@hookform/resolvers": "^3.9.0",
@@ -20,6 +24,7 @@
         "@radix-ui/react-toast": "^1.2.1",
         "@radix-ui/react-tooltip": "^1.1.2",
         "@tanstack/react-table": "^8.19.2",
+        "balena-sdk": "^19.7.1",
         "bcryptjs": "^2.4.3",
         "chart.js": "^4.4.3",
         "chartjs-adapter-date-fns": "^3.0.0",
