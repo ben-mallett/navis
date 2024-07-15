@@ -1,7 +1,7 @@
 'use server';
 
 import { Role } from '@prisma/client';
-import { UserT } from '@/components/tables/UserTable';
+import { UserT } from '@/components/tables/columnDefs/adminUserTableColumnDefs';
 import { RegisterFormData } from '@/components/forms/RegisterForm';
 import { hashPassword, checkPassword } from '../auth';
 import prisma from '../prisma/prisma';

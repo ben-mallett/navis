@@ -6,6 +6,7 @@ import {
     deleteDevice,
     getAllDevices,
     getDevicesOfUser,
+    privelegedDeleteDevice,
     updateDeviceIp,
 } from '../../../src/lib/actions/deviceActions';
 
@@ -667,6 +668,50 @@ describe('deleteDevice', () => {
         const { error, message, data } = await deleteDevice(
             device.id,
             requester.id
+        );
+
+        expect(error);
+        expect(message).toBe('Failed to delete device 1');
+        expect(data).toBeUndefined();
+    });
+});
+
+describe('privelegedDeleteDevice', () => {
+    test('privelegedDeleteDevice succeeds when given a valid device ID', async () => {
+        const device = {
+            id: 1,
+            name: 'sampleDevice',
+            balenaId: 'uuuuuu',
+            ipAddress: '192.168.1.1',
+            userId: 1,
+            createdAt: new Date(),
+        };
+        prisma.device.delete.mockResolvedValue(device);
+
+        const { error, message, data } = await privelegedDeleteDevice(
+            device.id
+        );
+
+        expect(!error);
+        expect(message).toBe('Successfully deleted device: 1');
+        expect(data.id).toBe(1);
+    });
+
+    test('privelegedDeleteDevice fails on failure to delete device in database', async () => {
+        const device = {
+            id: 1,
+            name: 'sampleDevice',
+            balenaId: 'uuuuuu',
+            ipAddress: '192.168.1.1',
+            userId: 1,
+        };
+
+        prisma.device.delete.mockImplementation(() => {
+            throw new Error('Database error');
+        });
+
+        const { error, message, data } = await privelegedDeleteDevice(
+            device.id
         );
 
         expect(error);

@@ -4,7 +4,6 @@ import { Pie } from 'react-chartjs-2';
 import { Chart, ArcElement, Tooltip, Legend } from 'chart.js';
 import { getAllUsers } from '@/lib/actions/userActions';
 import { useEffect, useState } from 'react';
-import { UserT } from '../tables/UserTable';
 import { verifySession } from '@/lib/session';
 
 Chart.register(ArcElement, Tooltip, Legend);

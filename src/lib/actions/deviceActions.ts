@@ -1,7 +1,7 @@
 'use server';
 
 import prisma from '../prisma/prisma';
-import { DeviceT } from '@/components/tables/DeviceTable';
+import { DeviceT } from '@/components/tables/columnDefs/adminDeviceTableColumnDefs';
 import { CreateDeviceFormData } from '@/components/forms/AddDeviceForm';
 import { DiagnosticReturn, verifyAdmin } from '../utils';
 
@@ -163,6 +163,35 @@ export async function deleteDevice(
         if (deviceToDelete.userId !== requesterId) {
             await verifyAdmin(requesterId);
         }
+        const deleted = await prisma.device.delete({
+            where: {
+                id: deviceId,
+            },
+        });
+
+        return {
+            error: false,
+            data: deleted,
+            message: `Successfully deleted device: ${deviceId}`,
+        };
+    } catch (error: any) {
+        return {
+            error: true,
+            message: `Failed to delete device ${deviceId}`,
+            data: undefined,
+        };
+    }
+}
+
+/**
+ * Deletes the device with the given id. To be called in priveleged contexts
+ * @param {number} deviceId id of device to delete
+ * @returns {DiagnosticReturn}
+ */
+export async function privelegedDeleteDevice(
+    deviceId: number
+): Promise<DiagnosticReturn> {
+    try {
         const deleted = await prisma.device.delete({
             where: {
                 id: deviceId,

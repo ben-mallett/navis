@@ -2,11 +2,10 @@
 
 import { verifySession } from '@/lib/session';
 import { getUserById } from '@/lib/actions/userActions';
-import DeviceTable from '@/components/tables/DeviceTable';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { getDevicesOfUser } from '@/lib/actions/deviceActions';
-import { DeviceT } from '@/components/tables/DeviceTable';
 import AddDeviceButton from '@/components/buttons/AddDeviceButton';
+import UserDeviceTable from '@/components/tables/UserDeviceTable';
 
 export default async function DashboardAccountPage() {
     const { id, role } = await verifySession();
@@ -55,7 +54,7 @@ export default async function DashboardAccountPage() {
                     <p>{deviceResponse?.message}</p>
                 </div>
             ) : (
-                <DeviceTable devices={deviceResponse?.data as DeviceT[]} />
+                <UserDeviceTable />
             )}
         </ScrollArea>
     );

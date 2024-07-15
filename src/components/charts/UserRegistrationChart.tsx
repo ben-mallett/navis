@@ -14,7 +14,7 @@ import {
 import 'chartjs-adapter-date-fns';
 import { getAllUsers } from '@/lib/actions/userActions';
 import { useEffect, useState } from 'react';
-import { UserT } from '../tables/UserTable';
+import { UserT } from '../tables/AdminUserTable';
 import { verifySession } from '@/lib/session';
 
 Chart.register(

@@ -32,6 +32,7 @@ export default function DebouncedInput({
             {...props}
             value={value}
             onChange={(e) => setValue(e.target.value)}
+            className=""
         />
     );
 }
