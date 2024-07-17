@@ -14,7 +14,7 @@ import {
 import 'chartjs-adapter-date-fns';
 import { useEffect, useState } from 'react';
 import { getAllDevices } from '@/lib/actions/deviceActions';
-import { DeviceT } from '../tables/AdminDeviceTable';
+import { DeviceT } from '../tables/columnDefs/adminDeviceTableColumnDefs';
 import { verifySession } from '@/lib/session';
 
 Chart.register(

@@ -5,9 +5,9 @@ import {
     User,
     LineChart,
     UserCog,
-    BellDot,
     ServerCog,
     SquareDot,
+    Calendar,
 } from 'lucide-react';
 import DashboardNavEntry from './DashboardNavEntry';
 import { verifySession } from '@/lib/session';
@@ -43,11 +43,11 @@ export default async function DashboardNav() {
                 tooltipMessage="View Streams"
             />
             <DashboardNavEntry
-                path="/dashboard/alerting"
+                path="/dashboard/scheduling"
                 ChildIcon={
-                    <BellDot color="rgb(94 234 212)" strokeWidth={1.25} />
+                    <Calendar color="rgb(94 234 212)" strokeWidth={1.25} />
                 }
-                tooltipMessage="Manage Alerting"
+                tooltipMessage="Manage Scheduling"
             />
             {session?.role !== undefined && session?.role === Role.ADMIN && (
                 <DashboardNavEntry

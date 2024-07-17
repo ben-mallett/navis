@@ -29,6 +29,13 @@ export default async function Login() {
                             className="text-blue-600 hover:cursor-pointer "
                         >
                             Register Here
+                        </Link>{' '}
+                        or{' '}
+                        <Link
+                            href="/"
+                            className="text-blue-600 hover:cursor-pointer"
+                        >
+                            Go Home
                         </Link>
                     </span>
                 </CardFooter>
