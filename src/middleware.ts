@@ -12,7 +12,6 @@ function violatesLoginOnlyRoutes(desiredPath: string, session: any) {
         '/dashboard/admin/users',
         '/dashboard/admin/devices',
     ];
-
     return loggedInOnlyRoutes.includes(desiredPath) && !session?.id;
 }
 
@@ -32,6 +31,8 @@ export async function middleware(request: NextRequest) {
 
     const cookie: string = cookies().get('session')?.value as string;
     const session = await decrypt(cookie);
+
+    console.log(session);
 
     if (violatesLoginOnlyRoutes(desiredPath, session)) {
         return NextResponse.redirect(new URL('/login', request.url));
