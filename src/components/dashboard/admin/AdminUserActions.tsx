@@ -61,13 +61,11 @@ export default function AdminUserActions(props: any) {
                             )}
                         </Button>
                     </TooltipTrigger>
-                    <TooltipContent>
-                        <div className="bg-teal-300 text-slate-600 p-2 rounded-md mb-1 border-teal-500">
-                            {row.original.role === Role.USER
-                                ? 'Upgrade'
-                                : 'Downgrade'}{' '}
-                            Permissions
-                        </div>
+                    <TooltipContent className="bg-teal-300 text-slate-600 p-2 rounded-md mb-1 border-teal-500">
+                        {row.original.role === Role.USER
+                            ? 'Upgrade'
+                            : 'Downgrade'}{' '}
+                        Permissions
                     </TooltipContent>
                 </Tooltip>
             </TooltipProvider>
@@ -98,10 +96,8 @@ export default function AdminUserActions(props: any) {
                             />
                         </Button>
                     </TooltipTrigger>
-                    <TooltipContent>
-                        <div className="bg-teal-300 text-slate-600 p-2 rounded-md mb-1">
-                            Delete User
-                        </div>
+                    <TooltipContent className="bg-teal-300 text-slate-600 p-2 rounded-md mb-1">
+                        Delete User
                     </TooltipContent>
                 </Tooltip>
             </TooltipProvider>

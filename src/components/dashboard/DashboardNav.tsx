@@ -5,9 +5,9 @@ import {
     User,
     LineChart,
     UserCog,
-    ServerCog,
     SquareDot,
     Calendar,
+    Cpu,
 } from 'lucide-react';
 import DashboardNavEntry from './DashboardNavEntry';
 import { verifySession } from '@/lib/session';
@@ -62,7 +62,7 @@ export default async function DashboardNav() {
                 <DashboardNavEntry
                     path="/dashboard/admin/devices"
                     ChildIcon={
-                        <ServerCog color="rgb(94 234 212)" strokeWidth={1.25} />
+                        <Cpu color="rgb(94 234 212)" strokeWidth={1.25} />
                     }
                     tooltipMessage="Manage Devices"
                 />

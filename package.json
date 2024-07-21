@@ -5,7 +5,7 @@
     "scripts": {
         "dev": "pnpm prisma migrate reset --force && npx prisma migrate deploy && npx prisma generate && pnpm run seed && next dev",
         "build": "next build",
-        "start": "next start",
+        "start": "npx prisma migrate deploy && npx prisma generate && pnpm run seed && next start",
         "lint": "next lint",
         "test": "vitest run",
         "seed": "ts-node --project seed.tsconfig.json src/lib/prisma/seed.ts"
