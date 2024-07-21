@@ -3,9 +3,23 @@ import { PrismaClient, Role, DataType } from '@prisma/client';
 const prisma = new PrismaClient();
 
 async function main() {
-    if (process.env.NODE_ENV !== 'production') {
-        await prisma.device.deleteMany({});
-        await prisma.sensorReading.deleteMany({});
+    const existingAdmin = await prisma.user.findUnique({
+        where: {
+            email: 'admin@admin.io',
+        },
+    });
+    const existingUser1 = await prisma.user.findUnique({
+        where: {
+            email: 'bob@pontus.io',
+        },
+    });
+    const existingUser2 = await prisma.user.findUnique({
+        where: {
+            email: 'alice@pontus.io',
+        },
+    });
+
+    if (existingAdmin === undefined) {
         const adminUser = await prisma.user.create({
             data: {
                 email: 'admin@admin.io',
@@ -19,7 +33,9 @@ async function main() {
                 },
             },
         });
+    }
 
+    if (existingUser1 === undefined) {
         const user1 = await prisma.user.create({
             data: {
                 email: 'bob@pontus.io',
@@ -35,7 +51,9 @@ async function main() {
                 },
             },
         });
+    }
 
+    if (existingUser2 === undefined) {
         const user2 = await prisma.user.create({
             data: {
                 email: 'alice@pontus.io',
