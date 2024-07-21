@@ -3,22 +3,9 @@ import { PrismaClient, Role, DataType } from '@prisma/client';
 const prisma = new PrismaClient();
 
 async function main() {
-    const adminExisting = await prisma.user.findUnique({
-        where: {
-            email: 'admin@admin.io',
-        },
-    });
-    const user1Existing = await prisma.user.findUnique({
-        where: {
-            email: 'bob@pontus.io',
-        },
-    });
-    const user2Existing = await prisma.user.findUnique({
-        where: {
-            email: 'alice@pontus.io',
-        },
-    });
-    if (adminExisting !== undefined) {
+    if (process.env.NODE_ENV !== 'production') {
+        await prisma.device.deleteMany({});
+        await prisma.sensorReading.deleteMany({});
         const adminUser = await prisma.user.create({
             data: {
                 email: 'admin@admin.io',
@@ -32,8 +19,7 @@ async function main() {
                 },
             },
         });
-    }
-    if (user1Existing !== undefined) {
+
         const user1 = await prisma.user.create({
             data: {
                 email: 'bob@pontus.io',
@@ -49,8 +35,7 @@ async function main() {
                 },
             },
         });
-    }
-    if (user2Existing !== undefined) {
+
         const user2 = await prisma.user.create({
             data: {
                 email: 'alice@pontus.io',
