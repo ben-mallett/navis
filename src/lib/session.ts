@@ -35,7 +35,7 @@ export async function decrypt(session: string) {
         return {
             data: undefined,
             error: true,
-            message: 'Failed to verify JWT',
+            message: error,
         };
     }
 }
