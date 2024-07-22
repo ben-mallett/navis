@@ -31,6 +31,7 @@ export async function middleware(request: NextRequest) {
     const desiredPath = request.nextUrl.pathname;
 
     const cookie: string = cookies().get('session')?.value as string;
+    console.log(cookie);
     const session = await decrypt(cookie);
 
     console.log(session);
