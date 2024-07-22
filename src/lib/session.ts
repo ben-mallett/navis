@@ -27,6 +27,7 @@ export async function encrypt(payload: any) {
 }
 
 export async function decrypt(session: string): Promise<DiagnosticReturn> {
+    console.log(key);
     try {
         const { payload } = await jwtVerify(session, key, {
             algorithms: ['HS256'],

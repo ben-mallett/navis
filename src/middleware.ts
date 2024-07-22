@@ -12,7 +12,7 @@ function violatesLoginOnlyRoutes(desiredPath: string, session: any) {
         '/dashboard/admin/users',
         '/dashboard/admin/devices',
     ];
-    return loggedInOnlyRoutes.includes(desiredPath) && !session?.data.id;
+    return loggedInOnlyRoutes.includes(desiredPath) && !session?.id;
 }
 
 function violatesAdminOnlyRoutes(desiredPath: string, session: any) {
@@ -22,8 +22,7 @@ function violatesAdminOnlyRoutes(desiredPath: string, session: any) {
     ];
 
     return (
-        adminOnlyRoutes.includes(desiredPath) &&
-        session?.data.role !== Role.ADMIN
+        adminOnlyRoutes.includes(desiredPath) && session?.role !== Role.ADMIN
     );
 }
 
@@ -32,14 +31,11 @@ export async function middleware(request: NextRequest) {
 
     const cookie: string = cookies().get('session')?.value as string;
     console.log(cookie);
-    const session = await decrypt(cookie);
+    const { error, message, data: session } = await decrypt(cookie);
 
     console.log(session);
-    if (session.error) {
-        return NextResponse.json(
-            { error: true, message: session.message },
-            { status: 500 }
-        );
+    if (error) {
+        return NextResponse.redirect(new URL('/login', request.url));
     }
 
     if (violatesLoginOnlyRoutes(desiredPath, session)) {
