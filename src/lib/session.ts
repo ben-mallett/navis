@@ -3,6 +3,7 @@ import { SignJWT, jwtVerify } from 'jose';
 import { Role } from '@prisma/client';
 import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
+import { DiagnosticReturn } from './utils';
 
 const key = new TextEncoder().encode(process.env.SESSION_KEY);
 
@@ -25,12 +26,16 @@ export async function encrypt(payload: any) {
         .sign(key);
 }
 
-export async function decrypt(session: string) {
+export async function decrypt(session: string): Promise<DiagnosticReturn> {
     try {
         const { payload } = await jwtVerify(session, key, {
             algorithms: ['HS256'],
         });
-        return payload;
+        return {
+            error: false,
+            message: 'Verified JWT',
+            data: payload,
+        };
     } catch (error: any) {
         return {
             data: undefined,
@@ -60,12 +65,12 @@ export async function createSession(userId: number, userRole: Role) {
 export async function verifySession(): Promise<{ id: number; role: Role }> {
     const sessionCookie: any = cookies().get(cookie.name)?.value;
     const session = await decrypt(sessionCookie);
-    if (!session?.id) {
+    if (!session?.data.id) {
         redirect('/login');
     } else {
         return {
-            id: session?.id as number,
-            role: session?.role as Role,
+            id: session?.data.id as number,
+            role: session?.data.role as Role,
         };
     }
 }
