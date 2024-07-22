@@ -37,10 +37,11 @@ export async function decrypt(session: string): Promise<DiagnosticReturn> {
             data: payload,
         };
     } catch (error: any) {
+        console.log(error);
         return {
             data: undefined,
             error: true,
-            message: error,
+            message: 'Failed to verify JWT',
         };
     }
 }
