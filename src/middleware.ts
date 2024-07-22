@@ -33,11 +33,6 @@ export async function middleware(request: NextRequest) {
     console.log(cookie);
     const { error, message, data: session } = await decrypt(cookie);
 
-    console.log(session);
-    if (error) {
-        return NextResponse.redirect(new URL('/login', request.url));
-    }
-
     if (violatesLoginOnlyRoutes(desiredPath, session)) {
         return NextResponse.redirect(new URL('/login', request.url));
     } else if (violatesAdminOnlyRoutes(desiredPath, session)) {
