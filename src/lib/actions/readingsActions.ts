@@ -47,7 +47,6 @@ export async function getReadingsOfAllUserDevicesOfType(
             data: readings,
         };
     } catch (error: any) {
-        console.log(error);
         return {
             error: true,
             message: 'Failed to get sensor readings associated with user.',

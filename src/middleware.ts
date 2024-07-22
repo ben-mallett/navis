@@ -30,7 +30,7 @@ export async function middleware(request: NextRequest) {
     const desiredPath = request.nextUrl.pathname;
 
     const cookie: string = cookies().get('session')?.value as string;
-    console.log(cookie);
+
     const { error, message, data: session } = await decrypt(cookie);
 
     if (violatesLoginOnlyRoutes(desiredPath, session)) {

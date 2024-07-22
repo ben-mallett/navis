@@ -22,10 +22,8 @@ export async function createUser(
 
     try {
         const { name, email, password } = formData;
-        console.log(formData);
 
         const hashed = hashPassword(password, 10);
-        console.log(hashed);
 
         user = await prisma.user.create({
             data: {
@@ -36,9 +34,7 @@ export async function createUser(
                     email === process.env.ADMIN_EMAIL ? Role.ADMIN : Role.USER,
             },
         });
-        console.log(user);
     } catch (error: any) {
-        console.log(error);
         return {
             data: undefined,
             error: true,

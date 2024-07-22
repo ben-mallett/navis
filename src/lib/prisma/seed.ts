@@ -3,6 +3,9 @@ import { PrismaClient, Role, DataType } from '@prisma/client';
 const prisma = new PrismaClient();
 
 async function main() {
+    await prisma.user.deleteMany();
+    await prisma.device.deleteMany();
+    await prisma.sensorReading.deleteMany();
     const existingAdmin = await prisma.user.findUnique({
         where: {
             email: 'admin@admin.io',
