@@ -12,9 +12,11 @@ import {
 import DashboardNavEntry from './DashboardNavEntry';
 import { verifySession } from '@/lib/session';
 import { Role } from '@prisma/client';
+import { getDevicesOfUser } from '@/lib/actions/deviceActions';
 
 export default async function DashboardNav() {
-    const session = await verifySession();
+    const { id, role } = await verifySession();
+    const { error, message, data: devices } = await getDevicesOfUser(id, id);
 
     return (
         <div className="sticky top-0 flex flex-col items-center justify-start w-[75px] border-r border-teal-300 min-h-screen">
@@ -30,26 +32,34 @@ export default async function DashboardNav() {
                 ChildIcon={<User color="rgb(94 234 212)" strokeWidth={1.25} />}
                 tooltipMessage="Account Settings"
             />
-            <DashboardNavEntry
-                path="/dashboard"
-                ChildIcon={
-                    <LineChart color="rgb(94 234 212)" strokeWidth={1.25} />
-                }
-                tooltipMessage="View Dashboard"
-            />
-            <DashboardNavEntry
-                path="/dashboard/streaming"
-                ChildIcon={<Tv color="rgb(94 234 212)" strokeWidth={1.25} />}
-                tooltipMessage="View Streams"
-            />
-            <DashboardNavEntry
-                path="/dashboard/scheduling"
-                ChildIcon={
-                    <Calendar color="rgb(94 234 212)" strokeWidth={1.25} />
-                }
-                tooltipMessage="Manage Scheduling"
-            />
-            {session?.role !== undefined && session?.role === Role.ADMIN && (
+            {devices && devices.length > 0 && (
+                <DashboardNavEntry
+                    path="/dashboard"
+                    ChildIcon={
+                        <LineChart color="rgb(94 234 212)" strokeWidth={1.25} />
+                    }
+                    tooltipMessage="View Dashboard"
+                />
+            )}
+            {devices && devices.length > 0 && (
+                <DashboardNavEntry
+                    path="/dashboard/streaming"
+                    ChildIcon={
+                        <Tv color="rgb(94 234 212)" strokeWidth={1.25} />
+                    }
+                    tooltipMessage="View Streams"
+                />
+            )}
+            {devices && devices.length > 0 && (
+                <DashboardNavEntry
+                    path="/dashboard/scheduling"
+                    ChildIcon={
+                        <Calendar color="rgb(94 234 212)" strokeWidth={1.25} />
+                    }
+                    tooltipMessage="Manage Scheduling"
+                />
+            )}
+            {role !== undefined && role === Role.ADMIN && (
                 <DashboardNavEntry
                     path="/dashboard/admin/users"
                     ChildIcon={
@@ -58,7 +68,7 @@ export default async function DashboardNav() {
                     tooltipMessage="Manage Users"
                 />
             )}
-            {session?.role !== undefined && session?.role === Role.ADMIN && (
+            {role !== undefined && role === Role.ADMIN && (
                 <DashboardNavEntry
                     path="/dashboard/admin/devices"
                     ChildIcon={

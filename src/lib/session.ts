@@ -59,7 +59,7 @@ export async function createSession(userId: number, userRole: Role) {
         sameSite: 'strict',
         expires,
     });
-    redirect('/dashboard');
+    redirect('/dashboard/account');
 }
 
 export async function verifySession(): Promise<{ id: number; role: Role }> {

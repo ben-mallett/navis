@@ -51,7 +51,7 @@ describe('createUser', () => {
             .spyOn(sessionModule, 'createSession')
             .mockImplementation(async () => {});
         prisma.user.create.mockImplementation(() => {
-            throw new Error('Sample error from prisma');
+            throw new Error('Failed to create user');
         });
 
         const { error, message, data } = await createUser(newUser);

@@ -38,7 +38,7 @@ export async function createUser(
         return {
             data: undefined,
             error: true,
-            message: error,
+            message: 'Failed to create user',
         };
     }
 
