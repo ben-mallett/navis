@@ -12,7 +12,7 @@ export default async function DashboardAccountPage() {
     const userResponse = await getUserById(id, id);
     if (userResponse?.error) {
         return (
-            <div className="flex flex-col items-center gap-4">
+            <div className="flex flex-col items-center justify-start gap-4">
                 <h2>Failed to fetch user information. Try refreshing.</h2>
                 <p>{userResponse?.message}</p>
             </div>
