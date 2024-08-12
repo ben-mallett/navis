@@ -21,7 +21,7 @@ export async function setDeviceCron(
                 id: device.userId,
             },
         });
-        if (user.balenaApiKey === undefined) {
+        if (user.balenaApiKey === null || user.balenaApiKey === undefined) {
             throw new Error(`API key for user ${user.id} not registered`);
         }
 
@@ -68,7 +68,7 @@ export async function setDeviceDatabaseId(
                 id: device.userId,
             },
         });
-        if (user.balenaApiKey === undefined) {
+        if (user.balenaApiKey === undefined || user.balenaApiKey === null) {
             throw new Error(`API key for user ${user.id} not registered`);
         }
 
