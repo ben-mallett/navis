@@ -254,3 +254,44 @@ export async function getUserById(
         };
     }
 }
+
+/**
+ * Updates a users Balena API key.
+ *
+ * @param userId id of user to update API key of
+ * @param apiKey api key to set
+ * @param requesterId requesting user's id
+ * @returns {DiagnosticReturn} diagnostic return with user id if successful
+ */
+export async function updateUserBalenaApiKey(
+    userId: number,
+    apiKey: string,
+    requesterId: number
+): Promise<DiagnosticReturn> {
+    try {
+        if (userId !== requesterId) {
+            await verifyAdmin(requesterId);
+        }
+
+        const updatedUser = await prisma.user.update({
+            where: {
+                id: userId,
+            },
+            data: {
+                balenaApiKey: apiKey,
+            },
+        });
+
+        return {
+            error: false,
+            message: 'Successfully updated user API key',
+            data: updatedUser.id,
+        };
+    } catch (error: any) {
+        return {
+            error: true,
+            message: 'Failed to update balena API key',
+            data: undefined,
+        };
+    }
+}

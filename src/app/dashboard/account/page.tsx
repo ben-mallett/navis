@@ -6,6 +6,7 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import { getDevicesOfUser } from '@/lib/actions/deviceActions';
 import AddDeviceButton from '@/components/buttons/AddDeviceButton';
 import UserDeviceTable from '@/components/tables/UserDeviceTable';
+import UpdateApiKeyButton from '@/components/buttons/UpdateApiKeyButton';
 
 export default async function DashboardAccountPage() {
     const { id, role } = await verifySession();
@@ -42,6 +43,9 @@ export default async function DashboardAccountPage() {
                 <div className="flex justify-between w-1/3">
                     <h4>Role:</h4>
                     <h4>{userResponse?.data?.role}</h4>
+                </div>
+                <div className="flex justify-end mt-4 w-1/3">
+                    <UpdateApiKeyButton />
                 </div>
             </div>
             <div className="flex justify-between items-center mt-20 mb-10">
