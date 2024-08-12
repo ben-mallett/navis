@@ -4,6 +4,8 @@ import { useState } from 'react';
 import { Cron } from 'react-js-cron';
 import 'react-js-cron/dist/styles.css';
 import { Button } from '../ui/button';
+import { useToast } from '../ui/use-toast';
+import { setDeviceCron } from '@/lib/actions/balenaActions';
 
 export type CronSetterProps = {
     balenaId: string;
@@ -11,6 +13,7 @@ export type CronSetterProps = {
 };
 
 export function CronSetter(props: CronSetterProps) {
+    const { toast } = useToast();
     const { balenaId, initialValue } = props;
     const [value, setValue] = useState(initialValue);
 
@@ -36,7 +39,19 @@ export function CronSetter(props: CronSetterProps) {
                     variant="outline"
                     className="bg-emerald-400/60 border border-teal-300 hover:bg-emerald-300/60 min-w-1/2"
                     onClick={() => {
-                        console.log('should update balena SDK');
+                        try {
+                            toast({
+                                title: 'Success',
+                                description: 'Updated device cron',
+                            });
+                        } catch (error: any) {
+                            toast({
+                                title: 'Uh oh...',
+                                description:
+                                    'Failed to update cron. Try again later',
+                                variant: 'destructive',
+                            });
+                        }
                     }}
                 >
                     Update Schedule
