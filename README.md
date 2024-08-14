@@ -28,4 +28,4 @@ Presentation slides can be found [here](https://docs.google.com/presentation/d/1
 
 ### Daemon 
 
-The code for embedded devices can be found (here)[https://github.com/ben-mallett/pontus-daemon] (in progress)
+The code for embedded devices can be found [here](https://github.com/ben-mallett/pontus-daemon) (in progress)
