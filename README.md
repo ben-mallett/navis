@@ -25,3 +25,7 @@ To apply our cloud infrastructure navigate to the terraform directory and run `t
 ### Presentation Slides
 
 Presentation slides can be found [here](https://docs.google.com/presentation/d/1f-b5YRDK0J7HvuaiPMK4AUEybNYE-ts4Kkkcs8euVdA/edit?usp=sharing)
+
+### Daemon 
+
+The code for embedded devices can be found (here)[https://github.com/ben-mallett/pontus-daemon] (in progress)
